@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-import axios from "axios"
+import axios from "axios";
 
 const ShopSection = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   useEffect(() => {
-      const fetchProducts = async() => {
-        const {data } = await axios.get("/api/products")
-        setProducts(data)
-      }
-  }, [])
+    const fetchProducts = async () => {
+      const { data } = await axios.get(
+        "https://5000-kcpele-shopclone1-7vpnj3r84gc.ws-eu38.gitpod.io/api/products",
+        
+      );
+      setProducts(data);
+      console.log(data);
+    };
+    fetchProducts();
+  }, []);
   return (
     <>
       <div className="container">
