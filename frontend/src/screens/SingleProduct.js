@@ -1,25 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./../components/Header";
 import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
 import Message from "./../components/LoadingError/Error";
-import axios from "axios";
+import Loading from "./../components/LoadingError/Loading";
+import {useDispatch, useSelector} from "react-redux";
+import { detailProduct} from "../Redux/Actions/ProductActions"
+
+
+
+
 
 const SingleProduct = ({ match }) => {
-  const [product, setProduct] = useState({})
-  useEffect(() =>{
-    const fetchProduct = async() => {
-      const {data} = await axios.get(`https://5000-kcpele-shopclone1-7vpnj3r84gc.ws-eu38.gitpod.io/api/products/${match.params.id}`)
-      setProduct(data)
-    }
-    fetchProduct();
-  }, [match])
+const dispatch = useDispatch();
+//geting the id passed as props
+const productId = match.params.id
+//geting loading , erro, and data from the reduce through useSelector ans passing in state in a callback function
+const productDetial = useSelector((state) => state.productDetial)
+const {loading, error, product} = productDetial
+ useEffect(() => {
+   //dispatching while calling the detailProduct action that accepts an id as parameter
+  dispatch(detailProduct(productId))
+  //useEffect wil rerun when id or dispatch changes
+ }, [dispatch, productId])
  
   return (
     <>
       <Header />
       <div className="container single-product">
-        <div className="row">
+        {
+        loading ? (
+        <div className="mb-5">
+          <Loading />
+        </div>
+        ) : error ? (
+          <Message variant="alert-danger">{error}</Message>
+        ) : (
+          <>
+           <div className="row">
           <div className="col-md-6">
             <div className="single-image">
               <img src={product.image} alt={product.name} />
@@ -129,6 +147,11 @@ const SingleProduct = ({ match }) => {
             </div>
           </div>
         </div>
+          </>
+        )
+
+        }
+       
       </div>
     </>
   );
