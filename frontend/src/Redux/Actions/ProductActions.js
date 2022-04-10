@@ -7,14 +7,14 @@ import {
   PRODUCT_DETAIL_REQUEST,
   PRODUCT_DETAIL_SUCCESS,
 } from "../Constants/ProductConstants";
-
+const url ="https://5000-kcpele-shopclone1-87jb42veve9.ws-eu39.gitpod.io"
 export const listProduct = () => async (dispatch) => {
   try {
     //dispatching request to show loading and we use this to know wether the data has being fetched
     dispatch({ type: PRODUCT_LIST_REQUEST });
     //fetching data
     const { data } = await axios.get(
-      "https://5000-kcpele-shopclone1-7vpnj3r84gc.ws-eu38.gitpod.io/api/products/"
+      `${url}/api/products/`
     );
     //dispatching data and tpye to be handle in reducer
     dispatch({
@@ -43,7 +43,7 @@ export const detailProduct = (id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAIL_REQUEST });
     //fetching data
     const { data } = await axios.get(
-      `https://5000-kcpele-shopclone1-7vpnj3r84gc.ws-eu38.gitpod.io/api/products/${id}`
+      `${url}/api/products/${id}`
     );
     //dispatching data and tpye to be handle in reducer
     dispatch({

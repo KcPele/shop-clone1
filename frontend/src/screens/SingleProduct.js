@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./../components/Header";
 import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
@@ -11,11 +11,12 @@ import { detailProduct} from "../Redux/Actions/ProductActions"
 
 
 
-const SingleProduct = ({ match }) => {
+const SingleProduct = ({ history, match }) => {
+  const [qty, setQty] = useState(1)
 const dispatch = useDispatch();
 //geting the id passed as props
 const productId = match.params.id
-//geting loading , erro, and data from the reduce through useSelector ans passing in state in a callback function
+//geting loading , erro, and data from the reduce through useSelector and passing in state in a callback function
 const productDetial = useSelector((state) => state.productDetial)
 const {loading, error, product} = productDetial
  useEffect(() => {
@@ -24,6 +25,10 @@ const {loading, error, product} = productDetial
   //useEffect wil rerun when id or dispatch changes
  }, [dispatch, productId])
  
+ const AddToCartHandle = (e) => {
+   e.preventDefault()
+   history.push(`/cart/${productId}?qty=${qty}`)
+ }
   return (
     <>
       <Header />
@@ -82,7 +87,7 @@ const {loading, error, product} = productDetial
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn">Add To Cart</button>
+                    <button onClick={AddToCartHandle} className="round-black-btn">Add To Cart</button>
                   </>
                 ) : null}
               </div>
