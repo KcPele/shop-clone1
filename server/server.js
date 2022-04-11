@@ -9,6 +9,8 @@ import userRouter from "./Routes/UserRoutes.js";
 
 dotenv.config();
 const app = express();
+//to get data rom the body
+app.use(express.json())
 connectDatabase();
 app.use(cors());
 

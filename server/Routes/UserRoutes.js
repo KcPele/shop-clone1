@@ -3,6 +3,7 @@ import Product from "../Models/UserModel.js";
 
 import asyncHandler from "express-async-handler";
 import User from "../Models/UserModel.js";
+import generateToken from "../utils/generateToken.js";
 const userRouter = express.Router();
 //login
 userRouter.post(
@@ -16,7 +17,7 @@ userRouter.post(
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
-            token: null,
+            token: generateToken(user._id),
             createdAt: user.createdAt
         })
     } else {
