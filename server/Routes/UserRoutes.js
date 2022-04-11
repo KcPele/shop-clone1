@@ -4,6 +4,7 @@ import Product from "../Models/UserModel.js";
 import asyncHandler from "express-async-handler";
 import User from "../Models/UserModel.js";
 import generateToken from "../utils/generateToken.js";
+import protect from "../Middleware/AuthMiddleWare.js";
 const userRouter = express.Router();
 //login
 userRouter.post(
@@ -27,4 +28,26 @@ userRouter.post(
   })
 );
 
+
+//user profile
+//login
+userRouter.get(
+  "/profile",
+  protect,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    if (user) {
+      res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          createdAt: user.createdAt
+      })
+  } else {
+      res.status(404)
+      throw new Error("User not found")
+  }
+  })
+);
 export default userRouter;
