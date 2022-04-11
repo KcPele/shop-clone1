@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./../components/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
-import { addToCart } from "../Redux/Actions/cartActions"
+import { addToCart, removefromcart } from "../Redux/Actions/cartActions"
 const CartScreen = ({match, location, history}) => {
   window.scrollTo(0, 0);
   const dispatch = useDispatch()
@@ -19,9 +19,14 @@ const CartScreen = ({match, location, history}) => {
   }, [dispatch, productId, qty])
 
   const checkOutHandler = () => {
-        history.pushState("/login?redirect=shipping")
+        history.push("/login?redirect=shipping")
 
   }
+  const removeFromCartHandler = (id) => {
+    //todo
+    dispatch(removefromcart(id));
+
+}
   
   return (
     <>
@@ -54,7 +59,8 @@ const CartScreen = ({match, location, history}) => {
         {
           cartItems.map((item) => (
             <div className="cart-iterm row">
-            <div className="remove-button d-flex justify-content-center align-items-center">
+            <div onClick={() => removeFromCartHandler(item.product)}
+             className="remove-button d-flex justify-content-center align-items-center">
               <i className="fas fa-times"></i>
             </div>
             <div className="cart-image col-md-3">
