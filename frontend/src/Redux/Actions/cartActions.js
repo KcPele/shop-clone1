@@ -2,7 +2,8 @@ import axios from "axios"
 import { CART_ADD_ITEM } from "../Constants/CartConstant"
 
 export const addToCart = (id, qty) => async(dispatch, getState) => {
-    const { data} = await axios.get(`/api/products/${id}`)
+    const url ="https://5000-kcpele-shopclone1-87jb42veve9.ws-eu39.gitpod.io"
+    const { data} = await axios.get(`${url}/api/products/${id}`)
 
 
     dispatch({
@@ -17,6 +18,7 @@ export const addToCart = (id, qty) => async(dispatch, getState) => {
         }
     })
 
+    //getState() is the initialState in the store that was declered
 
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))
 }
